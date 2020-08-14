@@ -1,0 +1,7 @@
+---
+- name: Download freescout
+  include: download.yml
+
+- name: configure freescout
+  include: configure.yml
+  when: freescout_configure

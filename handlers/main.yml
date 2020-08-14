@@ -1,0 +1,6 @@
+---
+- name: Clear freescout cache
+  become: "{{ freescout_user }}"
+  command:
+    cmd: "php artisan freescout:clear-cache"
+    chdir: "{{ freescout_basedir }}"

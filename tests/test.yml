@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  roles:
+    - e1mo.freescout
+  vars:

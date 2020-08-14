@@ -1,0 +1,21 @@
+---
+
+freescout_source: git # git or archive
+freescout_source_git_repo: https://github.com/freescout-helpdesk/freescout
+freescout_source_git_version: dist
+freescout_git_force: false
+freescout_source_archive: https://github.com/freescout-helpdesk/freescout/archive/dist.zip
+
+freescout_admin_user:
+  email: admin@example.org
+  firstName: Admin
+  lastName: istrator
+  password: admin
+
+freescout_basedir: /var/www/html
+freescout_user: "{{ ansible_facts['user_id'] }}"
+freescout_group: "{{ freescout_user }}"
+freescout_file_mode: "0644"
+
+freescout_configure: true
+freescout_config: []
