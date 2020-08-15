@@ -59,6 +59,8 @@
   when: not freescout_envfile_present.stat.exists
 
 - name: Install cronjob
+  become: yes
+  become_user: "{{ freescout_user }}"
   cron:
     name: "Freescout run schedule"
     job: "php {{ freescout_basedir }}/artisan schedule:run > /dev/null 2>&1"
