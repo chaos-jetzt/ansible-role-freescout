@@ -4,7 +4,7 @@ freescout_source: git # git or archive
 freescout_source_git_repo: https://github.com/freescout-helpdesk/freescout
 freescout_source_git_version: dist
 freescout_git_force: false
-freescout_source_archive: https://github.com/freescout-helpdesk/freescout/archive/dist.zip
+freescout_source_archive: https://github.com/freescout-helpdesk/freescout/archive/dist.tar.gz
 
 freescout_admin_user:
   email: admin@example.org
