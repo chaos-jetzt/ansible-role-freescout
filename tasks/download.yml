@@ -1,6 +1,7 @@
 ---
 - name: Create basedir for archive file with propper permissions
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   file:
     path: "{{ freescout_basedir }}"
     state: directory
@@ -8,7 +9,8 @@
   when: freescout_source == "archive"
 
 - name: Download and extract Freescout archive file
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   unarchive:
     src: "{{ freescout_source_archive }}"
     dest: "{{ freescout_basedir }}"
@@ -21,7 +23,8 @@
     - download
 
 - name: Download Freescout source via git
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   git:
     repo: "{{ freescout_source_git_repo }}"
     version: "{{ freescout_source_git_version }}"

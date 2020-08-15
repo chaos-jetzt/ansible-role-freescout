@@ -5,16 +5,19 @@
   register: freescout_envfile_present
 
 - name: Copy .env.example to .env
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   copy: 
     src: "{{ freescout_basedir }}/.env.example"
     dest: "{{ freescout_basedir }}/.env"
+    mode: "0600"
     remote_src: true
   when: not freescout_envfile_present.stat.exists
   notify: Clear freescout cache
 
 - name: Apply conffiguration parameters to .env
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   lineinfile:
     path: "{{ freescout_basedir }}/.env"
     regexp: "{{ item.name | upper }}="
@@ -23,7 +26,8 @@
   notify: Clear freescout cache
 
 - name: Generate app key
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   command:
     cmd: "php artisan key:generate"
     chdir: "{{ freescout_basedir }}"
@@ -31,21 +35,24 @@
   notify: Clear freescout cache
 
 - name: Link storage
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   command:
     cmd: "php artisan storage:link"
     chdir: "{{ freescout_basedir }}"
   notify: Clear freescout cache
 
 - name: Migrate database
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   command:
     cmd: "php artisan migrate -n --force"
     chdir: "{{ freescout_basedir }}"
   notify: Clear freescout cache
 
 - name: Create admin user
-  become: "{{ freescout_user }}"
+  become: yes
+  become_user: "{{ freescout_user }}"
   command:
     cmd: "php artisan freescout:create-user -n --email={{ freescout_admin_user.email }} --firstName={{ freescout_admin_user.firstName }} --lastName={{ freescout_admin_user.lastName }} --password={{ freescout_admin_user.password }} --role=admin"
     chdir: "{{ freescout_basedir }}"
