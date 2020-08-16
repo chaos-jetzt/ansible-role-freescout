@@ -1,12 +1,11 @@
 ---
-- name: Create basedir for archive file with propper permissions
-  become: yes
-  become_user: "{{ freescout_user }}"
+- name: Create basedir with propper permissions
   file:
+    owner: "{{ freescout_user }}"
+    group: "{{ freescout_group }}"
     path: "{{ freescout_basedir }}"
     state: directory
     recurse: yes
-  when: freescout_source == "archive"
 
 - name: Download and extract Freescout archive file
   become: yes
