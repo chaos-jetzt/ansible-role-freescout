@@ -13,7 +13,6 @@
     mode: "0600"
     remote_src: true
   when: not freescout_envfile_present.stat.exists
-  notify: Clear freescout cache
 
 - name: Apply conffiguration parameters to .env
   become: yes
@@ -23,7 +22,6 @@
     regexp: "{{ item.name | upper }}="
     line: "{{item.name | upper}}={{ item.value }}"
   with_items: "{{ freescout_config }}"
-  notify: Clear freescout cache
 
 - name: Generate app key
   become: yes
@@ -32,7 +30,6 @@
     cmd: "php artisan key:generate"
     chdir: "{{ freescout_basedir }}"
   when: not freescout_envfile_present.stat.exists
-  notify: Clear freescout cache
 
 - name: Link storage
   become: yes
@@ -40,7 +37,6 @@
   command:
     cmd: "php artisan storage:link"
     chdir: "{{ freescout_basedir }}"
-  notify: Clear freescout cache
 
 - name: Migrate database
   become: yes
@@ -48,7 +44,20 @@
   command:
     cmd: "php artisan migrate -n --force"
     chdir: "{{ freescout_basedir }}"
-  notify: Clear freescout cache
+
+- name: Clear freescout cache
+  become: yes
+  become_user: "{{ freescout_user }}"
+  command:
+    cmd: "php artisan migrate -n --force"
+    chdir: "{{ freescout_basedir }}"
+
+- name: Restart freescout queue
+  become: yes
+  become_user: "{{ freescout_user }}"
+  command:
+    cmd: "php artisan queue:restart"
+    chdir: "{{ freescout_basedir }}"
 
 - name: Create admin user
   become: yes
