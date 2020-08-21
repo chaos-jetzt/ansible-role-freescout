@@ -56,7 +56,7 @@
   command:
     cmd: "php artisan freescout:create-user -n --email={{ freescout_admin_user.email }} --firstName={{ freescout_admin_user.firstName }} --lastName={{ freescout_admin_user.lastName }} --password={{ freescout_admin_user.password }} --role=admin"
     chdir: "{{ freescout_basedir }}"
-  when: not freescout_envfile_present.stat.exists
+  when: not freescout_envfile_present.stat.exists or freescout_admin_user_force
 
 - name: Install cronjob
   cron:

@@ -12,6 +12,8 @@ freescout_admin_user:
   lastName: istrator
   password: admin
 
+freescout_admin_user_force: false
+
 freescout_basedir: /var/www/html
 freescout_user: "{{ ansible_facts['user_id'] }}"
 freescout_group: "{{ freescout_user }}"
