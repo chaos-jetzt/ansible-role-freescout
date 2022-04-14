@@ -70,5 +70,5 @@
 - name: Install cronjob
   cron:
     name: "Freescout run schedule"
-    job: "php {{ freescout_basedir }}/artisan schedule:run > /dev/null 2>&1"
+    job: "php {{ freescout_basedir }}/artisan schedule:run > /dev/null"
     user: "{{ freescout_user }}"
