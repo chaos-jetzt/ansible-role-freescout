@@ -21,3 +21,4 @@ freescout_file_mode: "0644"
 
 freescout_configure: true
 freescout_config: []
+freescout_php_path: "php" # Path to the php binary to use

@@ -20,6 +20,8 @@
   tags:
     - source
     - download
+  notify:
+    - freescout after-app-update
 
 - name: Download Freescout source via git
   become: yes
@@ -35,4 +37,6 @@
   tags:
     - source
     - download
+  notify:
+    - freescout after-app-update
 

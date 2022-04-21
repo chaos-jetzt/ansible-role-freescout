@@ -27,7 +27,7 @@
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan key:generate"
+    cmd: "{{ freescout_php_path }} artisan key:generate"
     chdir: "{{ freescout_basedir }}"
   when: not freescout_envfile_present.stat.exists
 
@@ -35,40 +35,40 @@
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan storage:link"
+    cmd: "{{ freescout_php_path }} artisan storage:link"
     chdir: "{{ freescout_basedir }}"
 
 - name: Migrate database
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan migrate -n --force"
+    cmd: "{{ freescout_php_path }} artisan migrate -n --force"
     chdir: "{{ freescout_basedir }}"
 
 - name: Clear freescout cache
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan migrate -n --force"
+    cmd: "{{ freescout_php_path }} artisan freescout:clear-cache"
     chdir: "{{ freescout_basedir }}"
 
 - name: Restart freescout queue
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan queue:restart"
+    cmd: "{{ freescout_php_path }} artisan queue:restart"
     chdir: "{{ freescout_basedir }}"
 
 - name: Create admin user
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan freescout:create-user -n --email={{ freescout_admin_user.email }} --firstName={{ freescout_admin_user.firstName }} --lastName={{ freescout_admin_user.lastName }} --password={{ freescout_admin_user.password }} --role=admin"
+    cmd: "{{ freescout_php_path }} artisan freescout:create-user -n --email={{ freescout_admin_user.email }} --firstName={{ freescout_admin_user.firstName }} --lastName={{ freescout_admin_user.lastName }} --password={{ freescout_admin_user.password }} --role=admin"
     chdir: "{{ freescout_basedir }}"
   when: not freescout_envfile_present.stat.exists or freescout_admin_user_force
 
 - name: Install cronjob
   cron:
     name: "Freescout run schedule"
-    job: "php {{ freescout_basedir }}/artisan schedule:run > /dev/null"
+    job: "{{ freescout_php_path }} {{ freescout_basedir }}/artisan schedule:run > /dev/null"
     user: "{{ freescout_user }}"

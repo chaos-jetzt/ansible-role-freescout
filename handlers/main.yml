@@ -3,5 +3,11 @@
   become: yes
   become_user: "{{ freescout_user }}"
   command:
-    cmd: "php artisan freescout:clear-cache"
+    cmd: "{{ freescout_php_path }} artisan freescout:clear-cache"
+    chdir: "{{ freescout_basedir }}"
+- name: freescout after-app-update
+  become: yes
+  become_user: "{{ freescout_user }}"
+  command:
+    cmd: "{{ freescout_php_path }} artisan freescout:after-app-update"
     chdir: "{{ freescout_basedir }}"
